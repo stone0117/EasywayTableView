@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SNEasywayTableView.h"
 @interface SNViewController : UIViewController
 
 @end

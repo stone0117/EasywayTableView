@@ -10,7 +10,6 @@
 #import "SNFooterView.h"
 #import "SNHeaderModel.h"
 #import "SNHeaderView.h"
-#import "SNTableView.h"
 #import "SNTableViewCell.h"
 #import "SNViewController.h"
 
