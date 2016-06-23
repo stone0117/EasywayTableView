@@ -1,7 +1,7 @@
 # EasywayTableView
 简单创建 tableView
 
-注意力 集中在 UIView的布局和model上
+注意力 集中在 cell的布局和model上
 
 如果想重写代理方法, 继承自 SNTableView
 
