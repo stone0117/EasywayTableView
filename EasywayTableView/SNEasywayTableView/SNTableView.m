@@ -13,39 +13,150 @@
 #import <objc/message.h>
 
 @interface SNTableView ()
+///** cell */
+//@property(nonatomic, strong) UITableViewCell * cell;
+///** headerView */
+//@property(nonatomic, strong) UITableViewHeaderFooterView * headerView;
+///** footerView */
+//@property(nonatomic, strong) UITableViewHeaderFooterView * footerView;
 
+/** identifier */
+@property(nonatomic, strong) NSString * cellID;
+@property(nonatomic, strong) NSString * headerID;
+@property(nonatomic, strong) NSString * footerID;
 @end
 
 @implementation SNTableView
+//=========  ============================ stone 🐳 ===========/
 
+- (void)setupInit {
+    self.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.delegate = self;
+    self.dataSource = self;
+
+    self.estimatedRowHeight = 100;
+    self.estimatedSectionHeaderHeight = 100;
+    self.estimatedSectionFooterHeight = 100;
+    //
+    self.rowHeight = UITableViewAutomaticDimension;
+    self.sectionHeaderHeight = UITableViewAutomaticDimension;
+    self.sectionFooterHeight = UITableViewAutomaticDimension;
+}
 //===================================== stone ===========/
-- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
-    self = [super initWithFrame:frame style:style];
-    if (self) {
+- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style cellWithClassOrNib:(id)cell cellID:(NSString *)cellID headerViewWithClassOrNib:(id)headerView headerViewID:(NSString *)headerViewID footerViewWithClassOrNib:(id)footerView footerViewID:(NSString *)footerViewID {
 
-        self.separatorStyle = UITableViewCellSeparatorStyleNone;
-        self.delegate = self;
-        self.dataSource = self;
+    if (self = [self initWithFrame:frame style:style]) {
+        [self setupInit];
 
-        self.estimatedRowHeight = 100;
-        self.estimatedSectionHeaderHeight = 100;
-        self.estimatedSectionFooterHeight = 100;
-        //
-        self.rowHeight = UITableViewAutomaticDimension;
-        self.sectionHeaderHeight = UITableViewAutomaticDimension;
-        self.sectionFooterHeight = UITableViewAutomaticDimension;
+        if (cellID) {
+
+            if ([cell isKindOfClass:UINib.class]) {
+                [self registerNib:cell forCellReuseIdentifier:cellID];
+            } else {
+                [self registerClass:[cell class] forCellReuseIdentifier:cellID];
+            }
+            self.cellID = cellID;
+        }
+
+        if (headerViewID) {
+            if ([headerView isKindOfClass:UINib.class]) {
+                [self registerNib:headerView forHeaderFooterViewReuseIdentifier:headerViewID];
+            } else {
+                [self registerClass:[headerView class] forHeaderFooterViewReuseIdentifier:headerViewID];
+            }
+            self.headerID = headerViewID;
+        }
+
+        if (footerViewID) {
+
+            if ([footerView isKindOfClass:UINib.class]) {
+                [self registerNib:footerView forHeaderFooterViewReuseIdentifier:footerViewID];
+            } else {
+                [self registerClass:[footerView class] forHeaderFooterViewReuseIdentifier:footerViewID];
+            }
+            self.footerID = footerViewID;
+        }
     }
     return self;
 }
-- (void)setCustomHeaderView:(UITableViewHeaderFooterView *)customHeaderView {
-    _customHeaderView = customHeaderView;
-}
-- (void)setCustomFooterView:(UITableViewHeaderFooterView *)customFooterView {
-    _customFooterView = customFooterView;
-}
-- (void)setCustomCell:(UITableViewCell *)customCell {
-    _customCell = customCell;
-}
+
+////===================================== stone ===========/
+//- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style cellWithClassOrNib:(id)cell cellID:(NSString *)cellID footerViewWithClassOrNib:(id)footerView footerViewID:(NSString *)footerViewID{
+//
+//    if (self = [self initWithFrame:frame style:style]) {
+//        [self setupInit];
+//
+//        if ([cell isKindOfClass:UINib.class]) {
+//            [self registerNib:cell forCellReuseIdentifier:cellID];
+//        } else {
+//            [self registerClass:[cell class] forCellReuseIdentifier:cellID];
+//        }
+//
+//        if ([footerView isKindOfClass:UINib.class]) {
+//            [self registerNib:footerView forHeaderFooterViewReuseIdentifier:footerViewID];
+//        } else {
+//            [self registerClass:[footerView class] forHeaderFooterViewReuseIdentifier:footerViewID];
+//        }
+//
+//
+//        self.cellID = cellID;
+//
+//        self.footerID = footerViewID;
+//    }
+//    return self;
+//}
+////===================================== stone ===========/
+//- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style cellWithClassOrNib:(id)cell cellID:(NSString *)cellID headerViewWithClassOrNib:(id)headerView headerViewID:(NSString *)headerViewID{
+//
+//    if (self = [self initWithFrame:frame style:style]) {
+//        [self setupInit];
+//
+//        if ([cell isKindOfClass:UINib.class]) {
+//            [self registerNib:cell forCellReuseIdentifier:cellID];
+//        } else {
+//            [self registerClass:[cell class] forCellReuseIdentifier:cellID];
+//        }
+//
+//        if ([headerView isKindOfClass:UINib.class]) {
+//            [self registerNib:headerView forHeaderFooterViewReuseIdentifier:headerViewID];
+//        } else {
+//            [self registerClass:[headerView class] forHeaderFooterViewReuseIdentifier:headerViewID];
+//        }
+//
+//        self.cellID = cellID;
+//        self.headerID = headerViewID;
+//
+//
+//    }
+//    return self;
+//}
+////===================================== stone ===========/
+//- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style cellWithClassOrNib:(id)cell cellID:(NSString *)cellID {
+//
+//    if (self = [self initWithFrame:frame style:style]) {
+//        [self setupInit];
+//
+//        if ([cell isKindOfClass:UINib.class]) {
+//            [self registerNib:cell forCellReuseIdentifier:cellID];
+//        } else {
+//            [self registerClass:[cell class] forCellReuseIdentifier:cellID];
+//        }
+//
+//        self.cellID = cellID;
+//
+//    }
+//    return self;
+//}
+//
+//- (instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
+//    self = [super initWithFrame:frame style:style];
+//    if (self) {
+//
+//        [self setupInit];
+//    }
+//    return self;
+//}
+
 #pragma mark - <UITableViewDataSource>
 /** 组数 */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -92,8 +203,8 @@
             NSString * methodName = [ivarName stringByReplacingOccurrencesOfString:firstStr withString:firstStr.uppercaseString];
 
             NSLog(@"set%@:", methodName);
-            
-            return [NSString stringWithFormat:@"set%@:",methodName];
+
+            return [NSString stringWithFormat:@"set%@:", methodName];
         }
 
         //        NSLog(@"%@ --- %@",newStr,propertyTypeName);
@@ -105,30 +216,30 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     //    UITableViewCell * cell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customCell.class, NSSelectorFromString(@"cellWithTableView:"), tableView);
-    UITableViewCell * cell = nil;
-    if ([self.customDelegate respondsToSelector:@selector(cellWithTableView:)]) {
-        cell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customDelegate, NSSelectorFromString(@"cellWithTableView:"), tableView);
-    }
 
-//    id cellModel = self.cellModels[indexPath.section];
-//    id cellModel = ([self.customDelegate respondsToSelector:@selector(getCellModelWith:indexPath:)] == NO) ? nil : [self.customDelegate getCellModelWith:self.cellModels indexPath:indexPath];
-   id cellModel =  [self.customDelegate respondsToSelector:@selector(getCellModelWith:indexPath:)] ? [self.customDelegate getCellModelWith:self.cellModels indexPath:indexPath] : nil;
-    
+    //    UITableViewCell * cell = nil;
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:self.cellID forIndexPath:indexPath];
+
+    //    if ([self.customDelegate respondsToSelector:@selector(cellWithTableView:)]) {
+    //        cell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customDelegate, NSSelectorFromString(@"cellWithTableView:"), tableView);
+    //    }
+
+    //    id cellModel = self.cellModels[indexPath.section];
+    //    id cellModel = ([self.customDelegate respondsToSelector:@selector(getCellModelWith:indexPath:)] == NO) ? nil : [self.customDelegate getCellModelWith:self.cellModels indexPath:indexPath];
+    id cellModel = [self.customDelegate respondsToSelector:@selector(getCellModelWith:indexPath:)] ? [self.customDelegate getCellModelWith:self.cellModels indexPath:indexPath] : nil;
 
     NSString * methodName = [self getPropertyNames:NSStringFromClass([cell class]) cellModelType:NSStringFromClass([cellModel class])];
 
     if (![methodName isEqualToString:@""]) {
-        
-        ((void (*)(id, SEL, id))(void *)objc_msgSend)(cell, NSSelectorFromString(methodName), cellModel);
-        
-    }
-    
 
-//    if (indexPath.section % 2) {
-//        cell.contentView.backgroundColor = [UIColor colorWithRed:152 / 255.0 green:208 / 255.0 blue:201 / 255.0 alpha:1.0];
-//    } else {
-//        cell.contentView.backgroundColor = [UIColor colorWithRed:76 / 255.0 green:165 / 255.0 blue:146 / 255.0 alpha:1.0];
-//    }
+        ((void (*)(id, SEL, id))(void *)objc_msgSend)(cell, NSSelectorFromString(methodName), cellModel);
+    }
+
+    //    if (indexPath.section % 2) {
+    //        cell.contentView.backgroundColor = [UIColor colorWithRed:152 / 255.0 green:208 / 255.0 blue:201 / 255.0 alpha:1.0];
+    //    } else {
+    //        cell.contentView.backgroundColor = [UIColor colorWithRed:76 / 255.0 green:165 / 255.0 blue:146 / 255.0 alpha:1.0];
+    //    }
 
     return cell;
 
@@ -163,6 +274,10 @@
 /** 自定义section header */
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
+    if (!self.headerID) {
+        return nil;
+    }
+
     //    SNHeaderView * headerView = [SNHeaderView headerViewWithTableView:tableView];
     //
     //    UIView * mView = [[UIView alloc] init];
@@ -180,11 +295,13 @@
     //    UITableViewHeaderFooterView * headercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customHeaderView.class, NSSelectorFromString(@"headerViewWithTableView:"), tableView);
     //
 
-    UITableViewHeaderFooterView * headercell = nil;
-    
-    if ([self.customDelegate respondsToSelector:@selector(headerViewWithTableView:)]) {
-        headercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customDelegate, NSSelectorFromString(@"headerViewWithTableView:"), tableView);
-    }
+    //    UITableViewHeaderFooterView * headercell = nil;
+
+    UITableViewHeaderFooterView * headercell = [tableView dequeueReusableHeaderFooterViewWithIdentifier:self.headerID];
+
+    //    if ([self.customDelegate respondsToSelector:@selector(headerViewWithTableView:)]) {
+    //        headercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customDelegate, NSSelectorFromString(@"headerViewWithTableView:"), tableView);
+    //    }
 
     //    headercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(headercell.class, NSSelectorFromString(@"headerViewWithTableView:"), tableView);
 
@@ -194,49 +311,50 @@
     // objc_msgSend(self, NSSelectorFromString(@"foo"), tableView);
 
     // NSLog(@"%@",[objc class]);
-    
+
     //=========  ============================ stone 🐳 ===========/
     id headerModel = self.headerModels[section];
-    
+
     NSString * methodName = [self getPropertyNames:NSStringFromClass([headercell class]) cellModelType:NSStringFromClass([headerModel class])];
-    
+
     //=========  ============================ stone 🐳 ===========/
     if (![methodName isEqualToString:@""]) {
-    
+
         ((void (*)(id, SEL, id))(void *)objc_msgSend)(headercell, NSSelectorFromString(methodName), self.headerModels[section]);
-    
     }
-    
-    
 
     return headercell;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
 
+    if (!self.footerID) {
+        return nil;
+    }
     //    UITableViewHeaderFooterView * footercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customFooterView.class, NSSelectorFromString(@"footerViewWithTableView:"), tableView);
     //
     //    ((void (*)(id, SEL, id))(void *)objc_msgSend)(footercell, NSSelectorFromString(@"setFooterModel:"), self.footerModels[section]);
     //
     //    return footercell;
 
-    UITableViewHeaderFooterView * footercell = nil;
-    if ([self.customDelegate respondsToSelector:@selector(footerViewWithTableView:)]) {
-        footercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customDelegate, NSSelectorFromString(@"footerViewWithTableView:"), tableView);
-    }
-    
+    //    UITableViewHeaderFooterView * footercell = nil;
+
+    UITableViewHeaderFooterView * footercell = [tableView dequeueReusableHeaderFooterViewWithIdentifier:self.footerID];
+    //    if ([self.customDelegate respondsToSelector:@selector(footerViewWithTableView:)]) {
+    //        footercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customDelegate, NSSelectorFromString(@"footerViewWithTableView:"), tableView);
+    //    }
+
     //=========  ============================ stone 🐳 ===========/
     id footerModel = self.footerModels[section];
-    
+
     NSString * methodName = [self getPropertyNames:NSStringFromClass([footercell class]) cellModelType:NSStringFromClass([footerModel class])];
-    
+
     //=========  ============================ stone 🐳 ===========/
 
     if (![methodName isEqualToString:@""]) {
-        
+
         ((void (*)(id, SEL, id))(void *)objc_msgSend)(footercell, NSSelectorFromString(methodName), footerModel);
     }
-    
 
     return footercell;
 }
@@ -249,7 +367,7 @@
     //    }
     //    return -1;
 
-    if ([self.customDelegate respondsToSelector:@selector(cellWithTableView:)]) {
+    if (self.cellID) {
         return -1;
     }
     return 0.001;
@@ -261,7 +379,7 @@
     //    }
     //    return -1;
 
-    if ([self.customDelegate respondsToSelector:@selector(footerViewWithTableView:)]) {
+    if (self.footerID) {
         return -1;
     }
     return 0.001;
@@ -273,7 +391,7 @@
     //        return 0.001;
     //    }
 
-    if ([self.customDelegate respondsToSelector:@selector(headerViewWithTableView:)]) {
+    if (self.headerID) {
         return -1;
     }
     return 0.001;

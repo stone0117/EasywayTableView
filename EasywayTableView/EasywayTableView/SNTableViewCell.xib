@@ -37,7 +37,6 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="HrY-st-YgA" firstAttribute="bottom" secondItem="aaq-TT-KzI" secondAttribute="bottom" priority="250" id="5Fq-Fs-Oyr"/>
                     <constraint firstAttribute="trailing" secondItem="gwU-jd-N4d" secondAttribute="trailing" constant="8" id="7X7-uG-6yT"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="aaq-TT-KzI" secondAttribute="bottom" constant="8" id="AxZ-rb-OKt"/>
                     <constraint firstAttribute="trailing" secondItem="HrY-st-YgA" secondAttribute="trailing" constant="8" id="CCR-0T-VEH"/>
@@ -49,11 +48,6 @@
                     <constraint firstItem="HrY-st-YgA" firstAttribute="top" secondItem="gwU-jd-N4d" secondAttribute="bottom" constant="8" id="t0O-Ol-zVb"/>
                     <constraint firstItem="gwU-jd-N4d" firstAttribute="leading" secondItem="aaq-TT-KzI" secondAttribute="trailing" constant="8" id="vrr-zz-fci"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="5Fq-Fs-Oyr"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="iconImageView" destination="aaq-TT-KzI" id="ksQ-vx-Rb3"/>

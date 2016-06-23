@@ -7,10 +7,11 @@
 //
 
 #import "SNCellModel.h"
-#import "SNFooterView.h"
+#import "SNTableViewCell.h"
 #import "SNHeaderModel.h"
 #import "SNHeaderView.h"
-#import "SNTableViewCell.h"
+#import "SNFooterView.h"
+#import "SNFooterModel.h"
 #import "SNViewController.h"
 
 @interface SNViewController () <SNTableViewDelegate>
@@ -52,12 +53,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    SNTableView * tableView = [[SNTableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStyleGrouped];
-
+    SNTableView * tableView = [[SNTableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped cellWithClassOrNib:[UINib nibWithNibName:@"SNTableViewCell" bundle:nil] cellID:@"cellID" headerViewWithClassOrNib:[UINib nibWithNibName:@"SNHeaderView" bundle:nil] headerViewID:@"headerViewID" footerViewWithClassOrNib:[UINib nibWithNibName:@"SNFooterView" bundle:nil] footerViewID:@"footerViewID"];
+    
     tableView.customDelegate = self;
-
-    [self.view addSubview:tableView];
-
+    
     tableView.groupCount = self.cellModels.count; //50;
 
     tableView.cellCount = 1;
@@ -68,21 +67,13 @@
     tableView.headerModels = self.headerModels;
 
     tableView.footerModels = self.footerModels;
+    
+    //========= ============================ stone 🐳 ===========/
+    
+    [self.view addSubview:tableView];
 }
 
 #pragma mark - <SNTableViewDelegate>
-- (UITableViewCell *)cellWithTableView:(UITableView *)tableView {
-    
-    return [SNTableViewCell cellWithTableView:tableView];
-}
-- (UITableViewHeaderFooterView *)headerViewWithTableView:(UITableView *)tableView {
-    
-    return [SNHeaderView headerViewWithTableView:tableView];
-}
-- (UITableViewHeaderFooterView *)footerViewWithTableView:(UITableView *)tableView {
-    
-    return [SNFooterView footerViewWithTableView:tableView];
-}
 /** @required */
 - (id)getCellModelWith:(NSArray *)cellModels indexPath:(NSIndexPath *)indexPath{
     
