@@ -215,17 +215,10 @@
 /** cell */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    //    UITableViewCell * cell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customCell.class, NSSelectorFromString(@"cellWithTableView:"), tableView);
+    NSLog(@"%@", self.cellID);
 
-    //    UITableViewCell * cell = nil;
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:self.cellID forIndexPath:indexPath];
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:self.cellID]; // forIndexPath:indexPath];
 
-    //    if ([self.customDelegate respondsToSelector:@selector(cellWithTableView:)]) {
-    //        cell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customDelegate, NSSelectorFromString(@"cellWithTableView:"), tableView);
-    //    }
-
-    //    id cellModel = self.cellModels[indexPath.section];
-    //    id cellModel = ([self.customDelegate respondsToSelector:@selector(getCellModelWith:indexPath:)] == NO) ? nil : [self.customDelegate getCellModelWith:self.cellModels indexPath:indexPath];
     id cellModel = [self.customDelegate respondsToSelector:@selector(getCellModelWith:indexPath:)] ? [self.customDelegate getCellModelWith:self.cellModels indexPath:indexPath] : nil;
 
     NSString * methodName = [self getPropertyNames:NSStringFromClass([cell class]) cellModelType:NSStringFromClass([cellModel class])];
@@ -242,31 +235,14 @@
     //    }
 
     return cell;
-
-    /*
-     UITableViewHeaderFooterView * headercell = nil;
-     if ([self.customDelegate respondsToSelector:@selector(headerViewWithTableView:)]) {
-     headercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(self.customDelegate, NSSelectorFromString(@"headerViewWithTableView:"), tableView);
-     }
-     
-     
-     
-     //    headercell = ((id (*)(id, SEL, id))(void *)objc_msgSend)(headercell.class, NSSelectorFromString(@"headerViewWithTableView:"), tableView);
-     
-     NSLog(@"%@", headercell);
-     // Implicitly declaring library function 'objc_msgSend' with type 'id (id, SEL, ...)'
-     
-     // objc_msgSend(self, NSSelectorFromString(@"foo"), tableView);
-     
-     // NSLog(@"%@",[objc class]);
-     ((void (*)(id, SEL, id))(void *)objc_msgSend)(headercell, NSSelectorFromString(@"setHeaderModel:"), self.headerModels[section]);
-     
-     return headercell;
-     */
 }
 #pragma mark - <UITableViewDelegate>
 /** 选中一行 */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self.customDelegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
+        [self.customDelegate tableView:tableView didSelectRowAtIndexPath:indexPath];
+    }
 }
 /** 取消 选中 */
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(3_0) {

@@ -7,11 +7,11 @@
 //
 
 #import "SNCellModel.h"
-#import "SNTableViewCell.h"
+#import "SNFooterModel.h"
+#import "SNFooterView.h"
 #import "SNHeaderModel.h"
 #import "SNHeaderView.h"
-#import "SNFooterView.h"
-#import "SNFooterModel.h"
+#import "SNTableViewCell.h"
 #import "SNViewController.h"
 
 @interface SNViewController () <SNTableViewDelegate>
@@ -25,6 +25,37 @@
 @end
 
 @implementation SNViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+
+    SNTableView * tableView = [[SNTableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped cellWithClassOrNib:[UINib nibWithNibName:@"SNTableViewCell" bundle:nil] cellID:@"cellID" headerViewWithClassOrNib:[UINib nibWithNibName:@"SNHeaderView" bundle:nil] headerViewID:@"headerViewID" footerViewWithClassOrNib:[UINib nibWithNibName:@"SNFooterView" bundle:nil] footerViewID:@"footerViewID"];
+
+    tableView.customDelegate = self;
+
+    tableView.groupCount = self.cellModels.count; //50;
+
+    tableView.cellCount = 1;
+    //=========  ============================ stone 🐳 ===========/
+
+    tableView.cellModels = self.cellModels;
+
+    tableView.headerModels = self.headerModels;
+
+    tableView.footerModels = self.footerModels;
+
+    //========= ============================ stone 🐳 ===========/
+
+    [self.view addSubview:tableView];
+}
+
+#pragma mark - <SNTableViewDelegate>
+/** 想知道 cell是 indexPath.row 获取的 还是 indexPath.section 获取的 */
+- (id)getCellModelWith:(NSArray *)cellModels indexPath:(NSIndexPath *)indexPath {
+    
+    return cellModels[indexPath.section];
+}
 
 - (NSArray *)cellModels {
     if (_cellModels == nil) {
@@ -47,37 +78,6 @@
         _footerModels = [SNFooterModel models];
     }
     return _footerModels;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-
-    SNTableView * tableView = [[SNTableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped cellWithClassOrNib:[UINib nibWithNibName:@"SNTableViewCell" bundle:nil] cellID:@"cellID" headerViewWithClassOrNib:[UINib nibWithNibName:@"SNHeaderView" bundle:nil] headerViewID:@"headerViewID" footerViewWithClassOrNib:[UINib nibWithNibName:@"SNFooterView" bundle:nil] footerViewID:@"footerViewID"];
-    
-    tableView.customDelegate = self;
-    
-    tableView.groupCount = self.cellModels.count; //50;
-
-    tableView.cellCount = 1;
-    //=========  ============================ stone 🐳 ===========/
-    
-    tableView.cellModels = self.cellModels;
-    
-    tableView.headerModels = self.headerModels;
-
-    tableView.footerModels = self.footerModels;
-    
-    //========= ============================ stone 🐳 ===========/
-    
-    [self.view addSubview:tableView];
-}
-
-#pragma mark - <SNTableViewDelegate>
-/** @required */
-- (id)getCellModelWith:(NSArray *)cellModels indexPath:(NSIndexPath *)indexPath{
-    
-    return cellModels[indexPath.section];
 }
 
 @end

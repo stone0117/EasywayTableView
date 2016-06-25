@@ -27,7 +27,7 @@
 ///** footerView */
 //- (void)registerClass:(Class)cls forFooterViewReuseIdentifier:(NSString *)identifier;
 //- (void)registerNib:(UINib *)nib forFooterViewReuseIdentifier:(NSString *)identifier;
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @required
 /** 想知道 cell是 indexPath.row 获取的 还是 indexPath.section 获取的 */
